@@ -13,4 +13,10 @@ TC06          10-2*3       4                 PASS
 TC07          100/10+5     15                PASS
 
 
-Testiranje prioriteta
+Testiranje prioriteta operacije 
+
+Test case     Ulaz      Očekivan rezultat    Status 
+
+TC08           2+2*5
+TC09
+TC10
