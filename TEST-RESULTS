@@ -1,0 +1,120 @@
+KRITIČNE GREŠKE
+1.Pogrešno parsiranjenegativnih brojeva
+expression.split("[" + Operations.ToString() + "]");
+Ovo razbije: 5*-2 U:["5", "", "2"]
+rezultat ERROR ili pogrešan rezultat
+Minus se tretira kao operator, a ne kao deo broja
+
+
+2.Nevalidni izrazi prolaze bez kontrole
+primer:
+5++2
+5*/2
++
+Kod:
+neče validirati strukturu izraza
+može baciti exception ili dati smešan rezultat
+
+3.expression.charAt(0) bez provere praznog stringa
+if (expression.charAt(0) == ...)
+ako je input "" → StringIndexOutOfBoundsException
+
+4.Globalna promenljiva (finalResult)
+static float finalResult;
+Problemi:
+nije thread-safe
+vrednost može “curiti” između poziva
+otežava debug 
+
+5.Rekurzija bez zaštite
+Calculate(numbers, operations);
+Ako nešto krene po zlu (npr.liste ne smanjuju pravilno):
+StackOverflowError
+
+6.Nema zaštite od deljenje nulom
+numbers.get(indexDivide) / numbers.get(indexDivide + 1);
+
+dobijaš Infinity, ali:
+to nije kontrolisano ponašanje
+korisnik ne dobija jasan error
+
+7.Pogresno rukovanje "infinity"
+if (numbers[i].equals("-Infinity"))
+korisnik nikad ne unosi "Infinity" kao string u realnom kalkulatoru
+ovo je besmisleno u ovom kontekstu
+
+LOGIČKI PROBLEMI
+8.result += ... je pogrešan obrazac
+result += numbers.get(indexMultiply) * numbers.get(indexMultiply + 1);
+Zašto +=?
+trebalo bi:
+result = ...
+Sada radi slučajno jer je result uvek 0 — ali je loša praksa i bug čeka.
+
+9.Operatori se traže preko indexOf
+operations.indexOf("*")
+uzima prvu pojavu samo 
+
+Ali:
+nemaš pravu kontrolu nad redosledom evaluacije
+ponašanje je implicitno i krho
+
+10.Višestruki prolazi kroz listu (neefikasno)
+Svaki korak:
+traži operator (indexOf)
+menja listu 
+rekurzija
+složenost ≈ O(n²)
+
+11.ToString() loš dizajn
+public static String ToString()
+
+problemi:
+krši Java konvenciju (toString)
+vraća “+*/-” → zavisi od redosleda
+koristi se za regex → potencijalni bug
+
+EDGE CASE PROBLEMI
+12.Razmaci nisu podržani
+"5 + 2"
+parsa puca
+
+13.Decimalni brojevi rade,ali bez validacije
+5..2
+baca exception → vraća "ERROR"
+OK, ali:
+nema prcizne poruke
+
+14.Ne podržava zagrade
+(2+3)*4
+potpuno pogrešan rezultat
+
+15.Trailing operator 
+5+2+
+numbers i operations ne odgovaraju → potencijalni crash
+
+16.Dupli operator
+5--2
+ne radi kako korisnik očekuje (trebalo bi = 7)
+
+DIZAJNERSKI PROBLEMI
+17. Mešanje parsiranje i evaluacija 
+Metoda radi:
+parsiranje
+validaciju
+računanje
+teško za održavanje i testiranje
+
+18.Vraćanje "ERROR" stringa
+return "ERROR";
+loš API dizajn
+Bolje:
+baciti exception
+ili vratiti rezultat objekat
+
+19.Korišćenje Float
+problemi sa prećiznošću
+0.1 + 0.2 != 0.3
+Bolje:
+double
+ili BigDecimal za ozbiljan kalkulator
