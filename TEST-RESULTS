@@ -13,7 +13,7 @@ primer:
 +
 Kod:
 neče validirati strukturu izraza
-može baciti exception ili dati smešan rezultat
+može baciti exception ili dati netačan rezultat
 
 3.expression.charAt(0) bez provere praznog stringa
 if (expression.charAt(0) == ...)
@@ -56,7 +56,7 @@ operations.indexOf("*")
 uzima prvu pojavu samo 
 
 Ali:
-nemaš pravu kontrolu nad redosledom evaluacije
+ne postoji prava kontrola nad redosledom evaluacije
 ponašanje je implicitno i krho
 
 10.Višestruki prolazi kroz listu (neefikasno)
