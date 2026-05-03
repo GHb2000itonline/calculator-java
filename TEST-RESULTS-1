@@ -1,0 +1,16 @@
+Sistemsko testiranje kalkuratora
+(Black Box)
+Funkcionalni testovi
+
+Test case     ulaz     očekivani rezultat    Status
+
+TC01          2+2          4                 PASS
+TC02          5-3          2                 PASS
+TC03          4*3          12                PASS
+TC04          8/2          4                 PASS
+TC05          2+3*4        14                PASS
+TC06          10-2*3       4                 PASS
+TC07          100/10+5     15                PASS
+
+
+Testiranje prioriteta
